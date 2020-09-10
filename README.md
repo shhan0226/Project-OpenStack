@@ -4,3 +4,4 @@
 
 ## Table of Contents
 - [2020] Stein 버전 Manual 설치
+- [2020] Starlingx 설치
