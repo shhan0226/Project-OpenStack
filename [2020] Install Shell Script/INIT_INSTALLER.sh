@@ -56,35 +56,6 @@ if [ "${SIMPLEJSON_INSTALL}" = "y" ]; then
 fi
 
 ##################################
-echo "Install C++ ..."
-read -p "[G++] Would you like to install it? <y|n>: " G_INSTALL
-sync
-
-if [ "${G_INSTALL}" = "y" ]; then
-	apt install g++ -y
-	sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-	apt update -y
-	apt dist-upgrade -y
-	apt install -y g++-6
-	apt install -y g++-6-multilib
-	sudo dpkg -l| grep g++ | awk '{print $2}'
-	sudo update-alternatives --display g++
-	sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 40
-	sudo update-alternatives --config g++
-fi
-
-##################################
-echo "Install Django ..."
-read -p "[Django] Would you like to install it? <y|n>: " DJANOG_INSTALL
-sync
-
-if [ "${DJANOG_INSTALL}" = "y" ]; then
-	pip install Django
-	pip install Django --upgrade
-	python -m django --version
-fi
-
-##################################
 echo "Install crudini ..."
 read -p "[crudini] Would you like to install it? <y|n>: " CRUDINI_INSTALL
 sync
@@ -188,7 +159,46 @@ apt dist-upgrade -y
 apt autoremove -y
 
 echo "----------------------------------------------------------"
-echo "THE END !!!"
+echo "Openstack installation END !!!"
 echo " "
 echo ">"
 echo "If you want to connect the compute nodes, you need to install NTP."
+
+echo "----------------------------------------------------------"
+read -p "Do you want to proceed with further installation? <y|n>: " FUTHER_INSTALL
+if [ "${FUTHER_INSTALL}" != "y" ]; then
+	exit 100
+fi
+
+##################################
+echo "Install C++ ..."
+read -p "[G++] Would you like to install it? <y|n>: " G_INSTALL
+sync
+
+if [ "${G_INSTALL}" = "y" ]; then
+        apt install g++ -y
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+        apt update -y
+        apt dist-upgrade -y
+        apt install -y g++-6
+        apt install -y g++-6-multilib
+        sudo dpkg -l| grep g++ | awk '{print $2}'
+        sudo update-alternatives --display g++
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 40
+        sudo update-alternatives --config g++
+fi
+
+##################################
+echo "Install Django ..."
+read -p "[Django] Would you like to install it? <y|n>: " DJANOG_INSTALL
+sync
+
+if [ "${DJANOG_INSTALL}" = "y" ]; then
+        pip install Django
+        pip install Django --upgrade
+        python -m django --version
+fi
+
+#################################
+echo "======================================="
+echo "THE END !!!"
