@@ -3,6 +3,8 @@
 read -p "What is openstack passwrd? : " STACK_PASSWD
 echo "$STACK_PASSWD"
 
+##########################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Keystone Reg. Mariadb ..."
 mysql -e "CREATE DATABASE keystone;"
 mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY '${STACK_PASSWD}';"
@@ -10,24 +12,38 @@ mysql -e "GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY '${
 mysql -e "FLUSH PRIVILEGES"
 
 
+##########################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install Keystone ..."
 apt install keystone -y
 crudini --set /etc/keystone/keystone.conf database connection mysql+pymysql://keystone:${STACK_PASSWD}@controller/keystone
 crudini --set /etc/keystone/keystone.conf token provider fernet
 
+
+##########################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Input DB ..."
 su -s /bin/sh -c "keystone-manage db_sync" keystone
 sync
 keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
 keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
 
+
+##########################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Keystone Bootstrap ..."
 keystone-manage bootstrap --bootstrap-password ${STACK_PASSWD} --bootstrap-admin-url http://controller:5000/v3/ --bootstrap-internal-url http://controller:5000/v3/ --bootstrap-public-url http://controller:5000/v3/ --bootstrap-region-id RegionOne
 
+
+##########################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "apache2 ..."
 echo "ServerName controller" >> /etc/apache2/apache2.conf
 service apache2 restart
 
+
+##########################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Input admin-openrc"
 cat << EOF > admin-openrc
 export OS_PROJECT_DOMAIN_NAME=Default
@@ -53,6 +69,8 @@ export OS_IMAGE_API_VERSION=2
 EOF
 
 
+##########################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Openstack set ..."
 . admin-openrc
 
@@ -85,5 +103,7 @@ openstack --os-auth-url http://controller:5000/v3 --os-project-domain-name Defau
 
 sync
 
+##########################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 . admin-openrc
 openstack token issue

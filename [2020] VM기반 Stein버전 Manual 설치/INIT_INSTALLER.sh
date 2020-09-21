@@ -12,11 +12,13 @@ else
 fi
 
 ##################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "APT update..."
 apt update -y
 apt dist-upgrade -y
 
 ##################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Python & pip SET ..."
 apt install python3-pip -y
 update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
@@ -24,12 +26,14 @@ update-alternatives --config python
 sudo -H pip3 install --upgrade pip
 
 ##################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install git ..."
 apt install git -y
 git config --global user.name shhan0226
 git config --global user.email shhan0226@gmail.com
 
 ##################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install Mariadb ..."
 read -p "[Mariadb] Would you like to install it? <y|n>: " MARIADB_INSTALL
 echo "$MARIADB_INSTALL"
@@ -44,6 +48,7 @@ if [ "${MARIADB_INSTALL}" = "y" ]; then
 fi
 
 ##################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install Simplejson ..."
 read -p "[Simplejson] Would you like to install it? <y|n>: " SIMPLEJSON_INSTALL
 #echo "$SIMPLEJSON_INSTALL"
@@ -56,6 +61,7 @@ if [ "${SIMPLEJSON_INSTALL}" = "y" ]; then
 fi
 
 ##################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install crudini ..."
 read -p "[crudini] Would you like to install it? <y|n>: " CRUDINI_INSTALL
 sync
@@ -68,6 +74,7 @@ if [ "${CRUDINI_INSTALL}" = "y" ]; then
 fi
 
 ##################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install Openstack Client ..."
 read -p "[Openstack-client] Would you like to install it? <y|n>: " OPENSTACKCLIENT_INSTALL
 sync
@@ -81,6 +88,7 @@ if [ "${OPENSTACKCLIENT_INSTALL}" = "y" ]; then
 fi
 
 ##################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "IP Setting ..."
 ifconfig
 read -p "Input IP: " SET_IP
@@ -89,6 +97,7 @@ echo "$SET_IP	compute" >> /etc/hosts
 
 
 ##################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Openstack Mariadb Set ..."
 read -p "[Openstack-Mariadb] Would you like to setting it? <y|n>: " OPENSTACK_DB_SET
 sync
@@ -108,6 +117,7 @@ if [ "${OPENSTACK_DB_SET}" = "y" ]; then
 fi
 
 ##################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install Message queue ..."
 read -p "[rabbitmq-server] Would you like to install it? <y|n>: " RABBIT_INSTALL
 sync
@@ -122,6 +132,7 @@ if [ "${RABBIT_INSTALL}" = "y" ]; then
 fi
 
 ##################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install Memcached ..."
 read -p "[Memcached] Would you like to install it? <y|n>: " MAMCACHED_INSTALL
 sync
@@ -134,6 +145,7 @@ if [ "${MAMCACHED_INSTALL}" = "y" ]; then
 fi
 
 ##################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install ETCD ..."
 read -p "[Etcd] Would you like to install it? <y|n>: " ETCD_INSTALL
 sync

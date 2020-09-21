@@ -3,6 +3,8 @@
 read -p "What is openstack passwrd? : " STACK_PASSWD
 echo "$STACK_PASSWD"
 
+##########################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "GLANCE Reg. Mariadb ..."
 mysql -e "CREATE DATABASE glance;"
 mysql -e "GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' IDENTIFIED BY '${STACK_PASSWD}';"
@@ -10,6 +12,8 @@ mysql -e "GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' IDENTIFIED BY '${STAC
 mysql -e "FLUSH PRIVILEGES"
 
 
+##########################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Openstack Glance ..."
 . admin-openrc
 
@@ -26,6 +30,8 @@ openstack endpoint create --region RegionOne image internal http://controller:92
 openstack endpoint create --region RegionOne image admin http://controller:9292
 
 
+##########################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install Glance ..."
 apt install glance -y
 
@@ -47,12 +53,21 @@ crudini --set /etc/glance/glance-api.conf glance_store stores file,http
 crudini --set /etc/glance/glance-api.conf glance_store default_store file
 crudini --set /etc/glance/glance-api.conf glance_store filesystem_store_datadir /var/lib/glance/images/
 
+
+##########################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Input DB ..."
 su -s /bin/sh -c "glance-manage db_sync" glance
 
+
+##########################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "service restart"
 service glance-api restart
 
+
+##########################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "download img"
 . admin-openrc
 wget http://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-disk.img
