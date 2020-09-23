@@ -180,6 +180,8 @@ echo "If you want to connect the compute nodes, you need to install NTP."
 echo "----------------------------------------------------------"
 read -p "Do you want to proceed with further installation? <y|n>: " FUTHER_INSTALL
 if [ "${FUTHER_INSTALL}" != "y" ]; then
+	echo "======================================="
+	echo "THE END !!!"
 	exit 100
 fi
 
