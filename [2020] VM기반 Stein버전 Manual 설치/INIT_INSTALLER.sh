@@ -151,6 +151,7 @@ read -p "[Etcd] Would you like to install it? <y|n>: " ETCD_INSTALL
 sync
 
 if [ "${ETCD_INSTALL}" = "y" ]; then
+	apt install etcd -y
 	echo "ETCD_NAME=\"controller\"" >> /etc/default/etcd
 	echo "ETCD_DATA_DIR=\"/var/lib/etcd\"" >> /etc/default/etcd
 	echo "ETCD_INITIAL_CLUSTER_STATE=\"new\"" >> /etc/default/etcd
