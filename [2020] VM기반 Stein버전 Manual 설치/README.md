@@ -6,28 +6,31 @@
 
 - step 2) **./KEYSTONE.sh**
   - controller node
-
-- step 3) **./PLACEMENT.sh**
+  
+- step 3) **./GLANCE.sh**
   - controller node
 
-- step 4) **./NOVA-CONTROLLER.sh**
+- step 4) **./PLACEMENT.sh**
   - controller node
 
-- step 5) **./NOVA-COMPUTE.sh**
+- step 5) **./NOVA-CONTROLLER.sh**
+  - controller node
+
+- step 6) **./NOVA-COMPUTE.sh**
   - compute node
 
-- step 6) **./NOVA-COMPUTE-CHECK.sh**
+- step 7) **./NOVA-COMPUTE-CHECK.sh**
   - controller node
 
-- step 7) **./NEUTRON-CONTROLLER.sh**
+- step 8) **./NEUTRON-CONTROLLER.sh**
   - controller node
 
-- step 8) ****./NEUTRON-COMPUTE.sh**
-  - compute node
-
-- step 9)
+- step 9) ./NEUTRON-CONTROLLER.sh
+  - controller node
 
 - step 10)
 
 - step 11)
+
+- step 12)
 
