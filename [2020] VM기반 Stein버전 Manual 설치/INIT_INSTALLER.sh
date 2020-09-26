@@ -151,6 +151,7 @@ read -p "[Etcd] Would you like to install it? <y|n>: " ETCD_INSTALL
 sync
 
 if [ "${ETCD_INSTALL}" = "y" ]; then
+	apt install etcd -y
 	echo "ETCD_NAME=\"controller\"" >> /etc/default/etcd
 	echo "ETCD_DATA_DIR=\"/var/lib/etcd\"" >> /etc/default/etcd
 	echo "ETCD_INITIAL_CLUSTER_STATE=\"new\"" >> /etc/default/etcd
@@ -179,6 +180,8 @@ echo "If you want to connect the compute nodes, you need to install NTP."
 echo "----------------------------------------------------------"
 read -p "Do you want to proceed with further installation? <y|n>: " FUTHER_INSTALL
 if [ "${FUTHER_INSTALL}" != "y" ]; then
+	echo "======================================="
+	echo "THE END !!!"
 	exit 100
 fi
 
