@@ -201,8 +201,10 @@ apt autoremove -y
 echo "----------------------------------------------------------"
 echo "Openstack installation END !!!"
 echo " "
-echo python --version
-echo pip --version
+python --version
+pip --version
+echo "----------------------------------------------------------"
+service --status-all|grep +
 echo ">"
 echo "----------------------------------------------------------"
 echo "If you want to connect the compute nodes, you need to install NTP."
