@@ -56,6 +56,48 @@ if [ "${MARIADB_INSTALL}" = "y" ]; then
 fi
 
 ##################################
+# /etc/hosts설정 합니다.
+##################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
+echo "IP Setting ..."
+ifconfig
+read -p "Input Contorller IP: " SET_IP
+read -p "Input Compute IP: " SET_IP2
+echo "$SET_IP controller" >> /etc/hosts
+echo "$SET_IP2 compute" >> /etc/hosts
+
+##################################
+#
+##################################
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
+echo "INSTALL NTP ..."
+read -p "[NTP] Is this a Controller Node? <y|n>: " CONTROLLER_NODE
+sync
+
+if [ "${CONTROLLER_NODE}" = "y" ]; then
+	apt install chrony -y
+	echo "server $SET_IP iburst" >> /etc/chrony/chrony.conf
+	read -p "please input the allow IP (ex 0.0.0.0/24): " SET_IP_ALLOW
+	echo "$SET_IP_ALLOW"
+	echo "allow $SET_IP_ALLOW" >> /etc/chrony/chrony.conf
+	service chrony restart
+	chronyc sources
+
+else
+	read -p "[NTP] Is this a Compute Node? <y|n>: " COMPUTE_NODE
+	sync
+	if [ "${COMPUTE_NODE}" = "y" ]; then
+        	apt install chrony -y
+		sed -i 's/pool/#pool/' /etc/chrony/chrony.conf
+        	echo "server controller iburst" >> /etc/chrony/chrony.conf
+        	service chrony restart
+        	chronyc sources
+	fi
+	
+fi
+
+
+##################################
 #
 ##################################
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
@@ -100,17 +142,6 @@ if [ "${OPENSTACKCLIENT_INSTALL}" = "y" ]; then
 	apt install python3-openstackclient -y
 	openstack --version
 fi
-
-##################################
-#
-##################################
-echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
-echo "IP Setting ..."
-ifconfig
-read -p "Input Contorller IP: " SET_IP
-read -p "Input Compute IP: " SET_IP2
-echo "$SET_IP controller" >> /etc/hosts
-echo "$SET_IP2 compute" >> /etc/hosts
 
 
 ##################################
@@ -198,15 +229,15 @@ apt update -y
 apt dist-upgrade -y
 apt autoremove -y
 
-echo "----------------------------------------------------------"
+echo "=========================================================="
 echo "Openstack installation END !!!"
+openstack --version
+echo "=========================================================="
 echo " "
 python --version
 pip --version
 echo "----------------------------------------------------------"
 service --status-all|grep +
 echo ">"
-echo "----------------------------------------------------------"
-echo "If you want to connect the compute nodes, you need to install NTP."
 echo "----------------------------------------------------------"
 echo "THE END !!!"
