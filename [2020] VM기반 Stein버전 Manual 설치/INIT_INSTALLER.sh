@@ -109,8 +109,8 @@ echo "IP Setting ..."
 ifconfig
 read -p "Input Contorller IP: " SET_IP
 read -p "Input Compute IP: " SET_IP2
-echo "$SET_IP	controller" >> /etc/hosts
-echo "$SET_IP2	compute" >> /etc/hosts
+echo "$SET_IP controller" >> /etc/hosts
+echo "$SET_IP2 compute" >> /etc/hosts
 
 
 ##################################
