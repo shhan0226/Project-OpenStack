@@ -1,36 +1,58 @@
 
 ## 쉘 스크립트 설치(실행) 순서는 다음과 같다.
 
-- step 1) **./INIT_INSTALLER.sh**
-  - ip 설정 및 NTP 서비스는 별도로 설치해야 합니다.
+### Step.1 
+- Controller Node에서 실행합니다.
+```
+./INIT_INSTALLER.sh
+```
 
-- step 2) **./KEYSTONE.sh**
-  - controller node
-  
-- step 3) **./GLANCE.sh**
-  - controller node
 
-- step 4) **./PLACEMENT.sh**
-  - controller node
 
-- step 5) **./NOVA-CONTROLLER.sh**
-  - controller node
+### Step.2
+-  Controller Node에서 실행합니다.
+```
+./KEYSTONE.sh**
+```
 
-- step 6) **./NOVA-COMPUTE.sh**
-  - compute node
+### Step.3
+- Controller Node에서 실행합니다.
+```
+./GLANCE.sh
+```
 
-- step 7) **./NOVA-COMPUTE-CHECK.sh**
-  - controller node
+### Step.4
+- Controller Node에서 실행합니다.
+```
+./PLACEMENT.sh
+```
 
-- step 8) **./NEUTRON-CONTROLLER.sh**
-  - controller node
+### Step.5
+- Controller Node에서 실행합니다.
+```
+./NOVA-CONTROLLER.sh
+```
 
-- step 9) ./NEUTRON-CONTROLLER.sh
-  - controller node
+### Step.6
+- Compute Node에서 실행합니다.
+```
+./NOVA-COMPUTE.sh
+```
 
-- step 10)
+### Step.7
+- Controller Node에서 실행합니다.
+```
+./NOVA-COMPUTE-CHECK.sh
+```
 
-- step 11)
+### Step.8
+- Controller Node에서 실행합니다.
+```
+./NEUTRON-CONTROLLER.sh
+```
 
-- step 12)
-
+### Step.9
+- Compute Node에서 실행합니다.
+```
+./NEUTRON-COMPUTE.sh
+```
