@@ -14,6 +14,8 @@ sync
 
 ##########################################
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+apt install neutron-linuxbridge-agent -y
+
 echo "NEUTRON conf. ..."
 crudini --set /etc/neutron/neutron.conf DEFAULT transport_url rabbit://openstack:${STACK_PASSWD}@controller 
 crudini --set /etc/neutron/neutron.conf DEFAULT auth_strategy keystone
@@ -60,7 +62,4 @@ echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Service restart"
 service nova-compute restart
 service neutron-linuxbridge-agent restart
-
-neutron ext-list
-neutron agent-list
-
+sync

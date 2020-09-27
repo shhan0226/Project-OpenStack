@@ -1,6 +1,8 @@
 #!/bin/bash
 
 ##################################
+# root 권한으로 변경하세요 
+##################################
 IAMACCOUNT=$(whoami)
 echo "${IAMACCOUNT}"
 
@@ -12,11 +14,15 @@ else
 fi
 
 ##################################
+# apt를 업데이트 합니다.
+##################################
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "APT update..."
 apt update -y
 apt dist-upgrade -y
 
+##################################
+# python을 설치하세요.
 ##################################
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Python & pip SET ..."
@@ -26,12 +32,14 @@ update-alternatives --config python
 sudo -H pip3 install --upgrade pip
 
 ##################################
+# git을 설치하세요.
+##################################
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install git ..."
 apt install git -y
-git config --global user.name shhan0226
-git config --global user.email shhan0226@gmail.com
 
+##################################
+# Mariadb를 설치하세요.
 ##################################
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install Mariadb ..."
@@ -48,6 +56,8 @@ if [ "${MARIADB_INSTALL}" = "y" ]; then
 fi
 
 ##################################
+#
+##################################
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install Simplejson ..."
 read -p "[Simplejson] Would you like to install it? <y|n>: " SIMPLEJSON_INSTALL
@@ -61,6 +71,8 @@ if [ "${SIMPLEJSON_INSTALL}" = "y" ]; then
 fi
 
 ##################################
+#
+##################################
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install crudini ..."
 read -p "[crudini] Would you like to install it? <y|n>: " CRUDINI_INSTALL
@@ -73,6 +85,8 @@ if [ "${CRUDINI_INSTALL}" = "y" ]; then
 	ln -s /usr/bin/crudinid/crudini /usr/bin/crudini
 fi
 
+##################################
+#
 ##################################
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install Openstack Client ..."
@@ -88,14 +102,19 @@ if [ "${OPENSTACKCLIENT_INSTALL}" = "y" ]; then
 fi
 
 ##################################
+#
+##################################
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "IP Setting ..."
 ifconfig
-read -p "Input IP: " SET_IP
+read -p "Input Contorller IP: " SET_IP
+read -p "Input Compute IP: " SET_IP2
 echo "$SET_IP	controller" >> /etc/hosts
-echo "$SET_IP	compute" >> /etc/hosts
+echo "$SET_IP2	compute" >> /etc/hosts
 
 
+##################################
+#
 ##################################
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Openstack Mariadb Set ..."
@@ -117,6 +136,8 @@ if [ "${OPENSTACK_DB_SET}" = "y" ]; then
 fi
 
 ##################################
+#
+##################################
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install Message queue ..."
 read -p "[rabbitmq-server] Would you like to install it? <y|n>: " RABBIT_INSTALL
@@ -132,6 +153,8 @@ if [ "${RABBIT_INSTALL}" = "y" ]; then
 fi
 
 ##################################
+#
+##################################
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install Memcached ..."
 read -p "[Memcached] Would you like to install it? <y|n>: " MAMCACHED_INSTALL
@@ -144,6 +167,8 @@ if [ "${MAMCACHED_INSTALL}" = "y" ]; then
         service memcached restart
 fi
 
+##################################
+#
 ##################################
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install ETCD ..."
@@ -167,6 +192,8 @@ if [ "${ETCD_INSTALL}" = "y" ]; then
 fi
 
 ##################################
+#
+##################################
 apt update -y
 apt dist-upgrade -y
 apt autoremove -y
@@ -174,46 +201,10 @@ apt autoremove -y
 echo "----------------------------------------------------------"
 echo "Openstack installation END !!!"
 echo " "
+echo python --version
+echo pip --version
 echo ">"
-echo "If you want to connect the compute nodes, you need to install NTP."
-
 echo "----------------------------------------------------------"
-read -p "Do you want to proceed with further installation? <y|n>: " FUTHER_INSTALL
-if [ "${FUTHER_INSTALL}" != "y" ]; then
-	echo "======================================="
-	echo "THE END !!!"
-	exit 100
-fi
-
-##################################
-echo "Install C++ ..."
-read -p "[G++] Would you like to install it? <y|n>: " G_INSTALL
-sync
-
-if [ "${G_INSTALL}" = "y" ]; then
-        apt install g++ -y
-        sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-        apt update -y
-        apt dist-upgrade -y
-        apt install -y g++-6
-        apt install -y g++-6-multilib
-        sudo dpkg -l| grep g++ | awk '{print $2}'
-        sudo update-alternatives --display g++
-        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 40
-        sudo update-alternatives --config g++
-fi
-
-##################################
-echo "Install Django ..."
-read -p "[Django] Would you like to install it? <y|n>: " DJANOG_INSTALL
-sync
-
-if [ "${DJANOG_INSTALL}" = "y" ]; then
-        pip install Django
-        pip install Django --upgrade
-        python -m django --version
-fi
-
-#################################
-echo "======================================="
+echo "If you want to connect the compute nodes, you need to install NTP."
+echo "----------------------------------------------------------"
 echo "THE END !!!"
