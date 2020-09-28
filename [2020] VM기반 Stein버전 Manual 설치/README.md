@@ -1,6 +1,5 @@
 # [2020] VM기반 Stein버전 Manual 설치
-
-## 쉘 스크립트 설치(실행) 순서는 다음과 같다.
+VM기반 Stein버전 Manual 설치 방법을 쉘 스크립트로 정리하였고, 설치(실행) 순서는 다음과 같다.
 
 ### Step.1 
 - Controller Node에서 실행합니다.
