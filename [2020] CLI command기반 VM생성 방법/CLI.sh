@@ -207,6 +207,13 @@ openstack security group show arm-secu
 ##################################
 . arm-openrc
 
+cat << EOF >init.sh
+#cloud-config
+password: mysecret
+chpasswd: { expire: False }
+ssh_pwauth: True
+EOF
+
 openstack server list
 
 read -p "Input VM Name: " VM_NAME
@@ -214,7 +221,7 @@ sync
 echo "${VM_NAME}"
 
 echo "server create"
-openstack server create --image centos7 --flavor arm-flavor --key-name arm-key --network internal --security-group arm-secu ${VM_NAME}
+openstack server create --image centos7 --flavor arm-flavor --key-name arm-key --network internal --user-data init.sh --security-group arm-secu ${VM_NAME}
 
 echo "server list"
 openstack server list
