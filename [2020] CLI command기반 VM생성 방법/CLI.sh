@@ -48,6 +48,8 @@ EOF
 ##################################
 # create project
 ##################################
+sync
+
 . admin-openrc
 
 echo "openstack project list"
