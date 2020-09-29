@@ -13,7 +13,7 @@ VM기반 Stein버전 Manual 설치 방법은 [Wiki](https://github.com/shhan0226
 ### Step.2
 -  Controller Node에서 실행합니다.
 ```
-./KEYSTONE.sh**
+./KEYSTONE.sh
 ```
 
 ### Step.3
