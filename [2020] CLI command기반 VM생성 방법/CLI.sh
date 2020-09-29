@@ -209,7 +209,7 @@ openstack security group show arm-secu
 
 cat << EOF >init.sh
 #cloud-config
-password: mysecret
+password: stack
 chpasswd: { expire: False }
 ssh_pwauth: True
 EOF
