@@ -169,7 +169,7 @@ sync
 . arm-openrc
 
 echo "image create"
-openstack image create --disk-format qcow2 --min-disk 15 --min-ram 2048 --file ./bionic-server-cloudimg-arm64.img ubuntu1804
+openstack image create --file bionic-server-cloudimg-arm64.img --disk-format qcow2 --container-format bare --public ubuntu1804
 
 echo "image show"
 openstack image show ubuntu1804
