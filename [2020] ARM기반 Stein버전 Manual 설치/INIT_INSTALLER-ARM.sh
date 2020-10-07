@@ -122,6 +122,7 @@ if [ "${NTP_ERROR}" = "y" ]; then
 	rm /var/lib/dpkg/lock*
 	dpkg --configure -a 
 	apt update -y
+	cd ~
 fi
 
 
@@ -156,6 +157,8 @@ if [ "${CRUDINI_INSTALL}" = "y" ]; then
 	git clone https://github.com/pixelb/crudini.git
 	mv crudini /usr/bin/crudinid 
 	ln -s /usr/bin/crudinid/crudini /usr/bin/crudini
+	sync
+	cd ~
 fi
 
 ##################################
@@ -252,6 +255,7 @@ if [ "${ETCD_INSTALL}" = "y" ]; then
 	sudo chown -R etcd:etcd /var/lib/etcd/
 	
 	sync
+	cd ~
 	systemctl daemon-reload
 	systemctl start etcd.service
 	

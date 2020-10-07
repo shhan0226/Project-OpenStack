@@ -43,6 +43,8 @@ systemctl daemon-reload
 
 echo "apache2 ..."
 echo "ServerName controller" >> /etc/apache2/apache2.conf
+cd ~
+sync
 service apache2 restart
 
 
