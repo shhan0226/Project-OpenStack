@@ -45,11 +45,11 @@ apt install wget -y
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "Install grub ..."
 sudo apt-get purge grub\*
-sudo apt install grub-common
-sudo apt install grub2-common
+sudo apt install grub-common -y
+sudo apt install grub2-common -y
 # sudo apt-get install grub-efi
 sudo apt-get autoremove
-sudo update-grub
+sudo update-grub -y
 
 ##################################
 # Mariadb를 설치하세요.
