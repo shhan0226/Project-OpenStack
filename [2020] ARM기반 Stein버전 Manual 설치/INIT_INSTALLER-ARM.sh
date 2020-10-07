@@ -49,7 +49,7 @@ sudo apt install grub-common -y
 sudo apt install grub2-common -y
 # sudo apt-get install grub-efi
 sudo apt-get autoremove
-sudo update-grub -y
+sudo update-grub
 
 ##################################
 # Mariadb를 설치하세요.
