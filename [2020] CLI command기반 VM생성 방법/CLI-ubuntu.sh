@@ -133,6 +133,7 @@ sync
 read -p "External End IP: (ex 10.0.10.200) " END_IP
 sync
 
+ip route
 read -p "External Gateway IP: " GATEWAY_IP
 sync
 
