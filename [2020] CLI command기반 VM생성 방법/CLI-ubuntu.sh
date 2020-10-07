@@ -120,7 +120,7 @@ sync
 read -p "External Gateway IP: " GATEWAY_IP
 sync
 
-echo "external sub net"
+echo "external sub net ..."
 openstack subnet create --subnet-range ${SUBNET_RANGE} --no-dhcp --gateway ${GATEWAY_IP} --network external --allocation-pool start=${START_IP},end=${END_IP} --dns-nameserver 8.8.8.8 external-subnet
 
 sync
@@ -129,7 +129,7 @@ sync
 ##################################
 . arm-openrc
 
-echo "internal net"
+echo "internal net ..."
 openstack network create internal
 
 sync
@@ -138,10 +138,10 @@ sync
 ##################################
 . arm-openrc
 
-read -p "Internal Subnet range: (ex 172.10.0.0/24) " SUBNET_RANGE2
+read -p "Internal Subnet range: (ex 172.0.10.0/24) " SUBNET_RANGE2
 sync
 
-echo "insternal sub net"
+echo "insternal sub net ..."
 openstack subnet create --subnet-range ${SUBNET_RANGE2} --dhcp --network internal --dns-nameserver 8.8.8.8 internal-subnet
 
 sync
@@ -150,13 +150,13 @@ sync
 ##################################
 . arm-openrc
 
-echo "route create"
+echo "route create ..."
 openstack router create arm-router
 
-echo "route in add"
+echo "route in add ..."
 openstack router add subnet arm-router internal-subnet
 
-echo "route ex add"
+echo "route ex add ..."
 openstack router set --external-gateway external arm-router
 
 echo "route list"
@@ -220,10 +220,10 @@ read -p "Input VM Name: " VM_NAME
 sync
 echo "${VM_NAME}"
 
-echo "server create"
+echo "server create ..."
 openstack server create --image ubuntu1804 --flavor arm-flavor --key-name arm-key --network internal --user-data init.sh --security-group arm-secu ${VM_NAME}
 
-echo "server list"
+echo "server list ..."
 openstack server list
 
 
@@ -233,7 +233,7 @@ openstack server list
 ##################################
 . arm-openrc
 
-echo "floating ip create"
+echo "floating ip create ..."
 openstack floating ip create external
 
 read -p "Input floating IP: " F_IP
