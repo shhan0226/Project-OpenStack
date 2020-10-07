@@ -22,6 +22,22 @@ apt install wget -y
 # wget http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2
 wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-arm64.img
 
+sync
+
+##################################
+# create img
+##################################
+. admin-openrc
+
+echo "image create"
+openstack image create --file bionic-server-cloudimg-arm64.img --disk-format qcow2 --container-format bare --public ubuntu1804
+
+echo "image show"
+openstack image show ubuntu1804
+
+sync
+
+
 ##################################
 # . admin_openrc
 ##################################
@@ -124,6 +140,8 @@ echo "external sub net ..."
 openstack subnet create --subnet-range ${SUBNET_RANGE} --no-dhcp --gateway ${GATEWAY_IP} --network external --allocation-pool start=${START_IP},end=${END_IP} --dns-nameserver 8.8.8.8 external-subnet
 
 sync
+
+
 ##################################
 # create Internal Net
 ##################################
@@ -163,18 +181,7 @@ echo "route list"
 openstack router list
 
 sync
-##################################
-# create img
-##################################
-. arm-openrc
 
-echo "image create"
-openstack image create --file bionic-server-cloudimg-arm64.img --disk-format qcow2 --container-format bare --public ubuntu1804
-
-echo "image show"
-openstack image show ubuntu1804
-
-sync
 ##################################
 # create keypair
 ##################################
