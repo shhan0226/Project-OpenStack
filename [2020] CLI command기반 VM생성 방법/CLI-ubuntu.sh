@@ -22,6 +22,22 @@ apt install wget -y
 # wget http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2
 wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-arm64.img
 
+sync
+
+##################################
+# create img
+##################################
+. admin-openrc
+
+echo "image create"
+openstack image create --file bionic-server-cloudimg-arm64.img --disk-format qcow2 --container-format bare --public ubuntu1804
+
+echo "image show"
+openstack image show ubuntu1804
+
+sync
+
+
 ##################################
 # . admin_openrc
 ##################################
@@ -117,6 +133,7 @@ sync
 read -p "External End IP: (ex 10.0.10.200) " END_IP
 sync
 
+ip route
 read -p "External Gateway IP: " GATEWAY_IP
 sync
 
@@ -124,6 +141,8 @@ echo "external sub net ..."
 openstack subnet create --subnet-range ${SUBNET_RANGE} --no-dhcp --gateway ${GATEWAY_IP} --network external --allocation-pool start=${START_IP},end=${END_IP} --dns-nameserver 8.8.8.8 external-subnet
 
 sync
+
+
 ##################################
 # create Internal Net
 ##################################
@@ -138,11 +157,11 @@ sync
 ##################################
 . arm-openrc
 
-read -p "Internal Subnet range: (ex 172.0.10.0/24) " SUBNET_RANGE2
-sync
+#read -p "Internal Subnet range: (ex 172.0.10.0/24) " SUBNET_RANGE2
+#sync
 
 echo "insternal sub net ..."
-openstack subnet create --subnet-range ${SUBNET_RANGE2} --dhcp --network internal --dns-nameserver 8.8.8.8 internal-subnet
+openstack subnet create --subnet-range 172.16.0.0/24 --dhcp --network internal --dns-nameserver 8.8.8.8 internal-subnet
 
 sync
 ##################################
@@ -163,18 +182,7 @@ echo "route list"
 openstack router list
 
 sync
-##################################
-# create img
-##################################
-. arm-openrc
 
-echo "image create"
-openstack image create --disk-format qcow2 --min-disk 15 --min-ram 2048 --file ./bionic-server-cloudimg-arm64.img ubuntu1804
-
-echo "image show"
-openstack image show ubuntu1804
-
-sync
 ##################################
 # create keypair
 ##################################
