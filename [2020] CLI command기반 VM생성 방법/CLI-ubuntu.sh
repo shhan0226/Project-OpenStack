@@ -245,6 +245,6 @@ openstack server add floating ip ${VM_NAME} ${F_IP}
 
 chmod 400 arm-key.pem
 echo "================================="
-echo "ssh -i arm-key.pem centos@${F_IP}"
+echo "ssh -i arm-key.pem ubuntu@${F_IP}"
 echo "================================="
 echo "END..."
