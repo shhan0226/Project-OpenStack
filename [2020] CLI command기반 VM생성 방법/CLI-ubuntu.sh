@@ -19,23 +19,8 @@ fi
 # download img
 ##################################
 apt install wget -y
-# wget http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2
-wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-arm64.img
-
-sync
-
-##################################
-# create img
-##################################
-. admin-openrc
-
-echo "image create"
-openstack image create --file bionic-server-cloudimg-arm64.img --disk-format qcow2 --container-format bare --public ubuntu1804
-
-echo "image show"
-openstack image show ubuntu1804
-
-sync
+#wget http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2
+wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
 
 
 ##################################
@@ -102,7 +87,7 @@ openstack user show arm-user
 . admin-openrc
 
 echo "create flavor"
-openstack flavor create --vcpus 4 --ram 2048 --disk 15 arm-flavor
+openstack flavor create --vcpus 2 --ram 2048 --disk 20 arm-flavor
 
 echo "flavor list"
 openstack flavor list
@@ -133,22 +118,19 @@ sync
 read -p "External End IP: (ex 10.0.10.200) " END_IP
 sync
 
-ip route
 read -p "External Gateway IP: " GATEWAY_IP
 sync
 
-echo "external sub net ..."
+echo "external sub net"
 openstack subnet create --subnet-range ${SUBNET_RANGE} --no-dhcp --gateway ${GATEWAY_IP} --network external --allocation-pool start=${START_IP},end=${END_IP} --dns-nameserver 8.8.8.8 external-subnet
 
 sync
-
-
 ##################################
 # create Internal Net
 ##################################
 . arm-openrc
 
-echo "internal net ..."
+echo "internal net"
 openstack network create internal
 
 sync
@@ -157,11 +139,11 @@ sync
 ##################################
 . arm-openrc
 
-#read -p "Internal Subnet range: (ex 172.0.10.0/24) " SUBNET_RANGE2
-#sync
+read -p "Internal Subnet range: (ex 172.10.0.0/24) " SUBNET_RANGE2
+sync
 
-echo "insternal sub net ..."
-openstack subnet create --subnet-range 172.16.0.0/24 --dhcp --network internal --dns-nameserver 8.8.8.8 internal-subnet
+echo "insternal sub net"
+openstack subnet create --subnet-range ${SUBNET_RANGE2} --dhcp --network internal --dns-nameserver 8.8.8.8 internal-subnet
 
 sync
 ##################################
@@ -169,20 +151,31 @@ sync
 ##################################
 . arm-openrc
 
-echo "route create ..."
+echo "route create"
 openstack router create arm-router
 
-echo "route in add ..."
+echo "route in add"
 openstack router add subnet arm-router internal-subnet
 
-echo "route ex add ..."
+echo "route ex add"
 openstack router set --external-gateway external arm-router
 
 echo "route list"
 openstack router list
 
 sync
+##################################
+# create img
+##################################
+. arm-openrc
 
+echo "image create"
+openstack image create --disk-format qcow2 --min-disk 15 --min-ram 1024 --file ./bionic-server-cloudimg-amd64.img ubuntu1804
+
+echo "image show"
+openstack image show centos7
+
+sync
 ##################################
 # create keypair
 ##################################
@@ -215,12 +208,12 @@ openstack security group show arm-secu
 ##################################
 . arm-openrc
 
-cat << EOF >init.sh
-#cloud-config
-password: stack
-chpasswd: { expire: False }
-ssh_pwauth: True
-EOF
+#cat << EOF >init.sh
+##cloud-config
+#password: stack
+#chpasswd: { expire: False }
+#ssh_pwauth: True
+#EOF
 
 openstack server list
 
@@ -228,10 +221,11 @@ read -p "Input VM Name: " VM_NAME
 sync
 echo "${VM_NAME}"
 
-echo "server create ..."
-openstack server create --image ubuntu1804 --flavor arm-flavor --key-name arm-key --network internal --user-data init.sh --security-group arm-secu ${VM_NAME}
+echo "server create"
+#openstack server create --image centos7 --flavor arm-flavor --key-name arm-key --network internal --user-data init.sh --security-group arm-secu ${VM_NAME}
+openstack server create --image ubuntu1804 --flavor arm-flavor --key-name arm-key --network internal --security-group arm-secu ${VM_NAME}
 
-echo "server list ..."
+echo "server list"
 openstack server list
 
 
@@ -241,7 +235,7 @@ openstack server list
 ##################################
 . arm-openrc
 
-echo "floating ip create ..."
+echo "floating ip create"
 openstack floating ip create external
 
 read -p "Input floating IP: " F_IP
@@ -256,3 +250,4 @@ echo "================================="
 echo "ssh -i arm-key.pem ubuntu@${F_IP}"
 echo "================================="
 echo "END..."
+
