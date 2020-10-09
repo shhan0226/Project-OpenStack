@@ -19,9 +19,8 @@ fi
 # download img
 ##################################
 apt install wget -y
-#wget http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2
+wget http://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud.qcow2
 wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
-
 
 ##################################
 # . admin_openrc
@@ -82,18 +81,6 @@ openstack user show arm-user
 
 
 ##################################
-# create flavor(Instance TEMP)
-##################################
-. admin-openrc
-
-echo "create flavor"
-openstack flavor create --vcpus 2 --ram 2048 --disk 20 arm-flavor
-
-echo "flavor list"
-openstack flavor list
-
-
-##################################
 # create External Net
 ##################################
 . admin-openrc
@@ -125,6 +112,7 @@ echo "external sub net"
 openstack subnet create --subnet-range ${SUBNET_RANGE} --no-dhcp --gateway ${GATEWAY_IP} --network external --allocation-pool start=${START_IP},end=${END_IP} --dns-nameserver 8.8.8.8 external-subnet
 
 sync
+
 ##################################
 # create Internal Net
 ##################################
@@ -146,6 +134,7 @@ echo "insternal sub net"
 openstack subnet create --subnet-range ${SUBNET_RANGE2} --dhcp --network internal --dns-nameserver 8.8.8.8 internal-subnet
 
 sync
+
 ##################################
 # create Router
 ##################################
@@ -164,18 +153,8 @@ echo "route list"
 openstack router list
 
 sync
-##################################
-# create img
-##################################
-. arm-openrc
 
-echo "image create"
-openstack image create --disk-format qcow2 --min-disk 15 --min-ram 1024 --file ./bionic-server-cloudimg-amd64.img ubuntu1804
 
-echo "image show"
-openstack image show centos7
-
-sync
 ##################################
 # create keypair
 ##################################
@@ -204,50 +183,25 @@ openstack security group show arm-secu
 
 
 ##################################
-# create Instance
+# create init.sh
 ##################################
 . arm-openrc
 
-#cat << EOF >init.sh
-##cloud-config
-#password: stack
-#chpasswd: { expire: False }
-#ssh_pwauth: True
-#EOF
-
-openstack server list
-
-read -p "Input VM Name: " VM_NAME
-sync
-echo "${VM_NAME}"
-
-echo "server create"
-#openstack server create --image centos7 --flavor arm-flavor --key-name arm-key --network internal --user-data init.sh --security-group arm-secu ${VM_NAME}
-openstack server create --image ubuntu1804 --flavor arm-flavor --key-name arm-key --network internal --security-group arm-secu ${VM_NAME}
-
-echo "server list"
-openstack server list
+cat << EOF >init.sh
+#cloud-config
+password: stack
+chpasswd: { expire: False }
+ssh_pwauth: True
+EOF
 
 
 
-##################################
-# Add Floating IP
-##################################
-. arm-openrc
 
-echo "floating ip create"
-openstack floating ip create external
 
-read -p "Input floating IP: " F_IP
-sync
-echo "${VM_NAME} ${F_IP}"
 
-echo "server add floating ip"
-openstack server add floating ip ${VM_NAME} ${F_IP}
 
-chmod 400 arm-key.pem
-echo "================================="
-echo "ssh -i arm-key.pem ubuntu@${F_IP}"
-echo "================================="
-echo "END..."
+
+
+
+
 
