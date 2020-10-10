@@ -6,3 +6,4 @@
 - [2020] VM기반 Stein버전 Manual 설치
 - [2020] ARM기반 Stein버전 Manual 설치
 - [2020] CLI command기반 VM생성 방법
+- [2020] Mysql와 RabbitMq 나누어 설치
