@@ -17,7 +17,7 @@ echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 apt install neutron-linuxbridge-agent -y
 
 echo "NEUTRON conf. ..."
-crudini --set /etc/neutron/neutron.conf DEFAULT transport_url rabbit://openstack:${STACK_PASSWD}@controller 
+crudini --set /etc/neutron/neutron.conf DEFAULT transport_url rabbit://openstack:${STACK_PASSWD}@compute
 crudini --set /etc/neutron/neutron.conf DEFAULT auth_strategy keystone
 
 crudini --set /etc/neutron/neutron.conf keystone_authtoken www_authenticate_uri http://controller:5000

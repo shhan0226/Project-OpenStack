@@ -19,7 +19,7 @@ apt install nova-compute -y
 echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>"
 echo "NOVA Conf. ..."
 
-crudini --set /etc/nova/nova.conf DEFAULT transport_url rabbit://openstack:stack@controller
+crudini --set /etc/nova/nova.conf DEFAULT transport_url rabbit://openstack:stack@compute
 crudini --set /etc/nova/nova.conf DEFAULT my_ip ${SET_IP}
 crudini --set /etc/nova/nova.conf DEFAULT use_neutron true
 crudini --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
