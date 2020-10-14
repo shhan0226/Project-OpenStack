@@ -46,7 +46,7 @@ openstack project list
 ##################################
 . admin-openrc
 
-echo "external net"
+echo "external net..."
 openstack network create --external --provider-network-type flat --provider-physical-network provider external
 
 
