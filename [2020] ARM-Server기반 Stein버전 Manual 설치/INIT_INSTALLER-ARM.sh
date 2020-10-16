@@ -242,15 +242,20 @@ read -p "[Etcd] Would you like to install it? <y|n>: " ETCD_INSTALL
 sync
 
 if [ "${ETCD_INSTALL}" = "y" ]; then
-	export ETCD_UNSUPPORTED_ARCH=arm64
-	RELEASE="3.2.17"
+	# export ETCD_UNSUPPORTED_ARCH=arm64
+	
+	RELEASE="3.3.13"
 	wget https://github.com/etcd-io/etcd/releases/download/v${RELEASE}/etcd-v${RELEASE}-linux-arm64.tar.gz
 	tar xvf etcd-v${RELEASE}-linux-arm64.tar.gz
+	
 	cd etcd-v${RELEASE}-linux-arm64
 	mv etcd etcdctl /usr/local/bin
+	
 	etcd --version
+	
 	mkdir -p /var/lib/etcd/
 	mkdir /etc/etcd
+	
 	sudo groupadd --system etcd
 	sudo useradd -s /sbin/nologin --system -g etcd etcd
 	sudo chown -R etcd:etcd /var/lib/etcd/
