@@ -242,42 +242,50 @@ read -p "[Etcd] Would you like to install it? <y|n>: " ETCD_INSTALL
 sync
 
 if [ "${ETCD_INSTALL}" = "y" ]; then
+	groupadd --system etcd
+	useradd --home-dir "/var/lib/etcd" --system --shell /bin/false -g etcd etcd
+	mkdir -p /etc/etcd
+	chown etcd:etcd /etc/etcd
+	mkdir -p /var/lib/etcd
+	chown etcd:etcd /var/lib/etcd
+	
+	wget https://github.com/etcd-io/etcd/releases/download/v3.4.1/etcd-v3.4.1-linux-arm64.tar.gz
+	tar -xvf etcd-v3.4.1-linux-arm64.tar.gz
+	sudo cp etcd-v3.4.1-linux-arm64/etcd* /usr/bin/
+	
+	#crudini --set
+	#crudini --set
+	
+	
+	
 	# export ETCD_UNSUPPORTED_ARCH=arm64
-	
-	RELEASE="3.3.13"
-	wget https://github.com/etcd-io/etcd/releases/download/v${RELEASE}/etcd-v${RELEASE}-linux-arm64.tar.gz
-	tar xvf etcd-v${RELEASE}-linux-arm64.tar.gz
-	
-	cd etcd-v${RELEASE}-linux-arm64
-	mv etcd etcdctl /usr/local/bin
-	
-	etcd --version
-	
-	mkdir -p /var/lib/etcd/
-	mkdir /etc/etcd
-	
-	sudo groupadd --system etcd
-	sudo useradd -s /sbin/nologin --system -g etcd etcd
-	sudo chown -R etcd:etcd /var/lib/etcd/
-	
-	sync
-	cd ~
-	systemctl daemon-reload
-	systemctl start etcd.service
-	
-	sync
-	echo "ETCD_NAME=\"controller\"" >> /etc/default/etcd
-	echo "ETCD_DATA_DIR=\"/var/lib/etcd\"" >> /etc/default/etcd
-	echo "ETCD_INITIAL_CLUSTER_STATE=\"new\"" >> /etc/default/etcd
-	echo "ETCD_INITIAL_CLUSTER_TOKEN=\"etcd-cluster-01\"" >> /etc/default/etcd
-	echo "ETCD_INITIAL_CLUSTER=\"controller=http://${SET_IP}:2380\"" >> /etc/default/etcd
-	echo "ETCD_INITIAL_ADVERTISE_PEER_URLS=\"http://${SET_IP}:2380\"" >> /etc/default/etcd
-	echo "ETCD_ADVERTISE_CLIENT_URLS=\"http://${SET_IP}:2379\"" >> /etc/default/etcd
-	echo "ETCD_LISTEN_PEER_URLS=\"http://0.0.0.0:2380\"" >> /etc/default/etcd
-	echo "ETCD_LISTEN_CLIENT_URLS=\"http://${SET_IP}:2379\"" >> /etc/default/etcd
-
-	systemctl enable etcd
-	systemctl restart etcd
+	# RELEASE="3.3.13"
+	# wget https://github.com/etcd-io/etcd/releases/download/v${RELEASE}/etcd-v${RELEASE}-linux-arm64.tar.gz
+	# tar xvf etcd-v${RELEASE}-linux-arm64.tar.gz
+	# cd etcd-v${RELEASE}-linux-arm64
+	# mv etcd etcdctl /usr/local/bin
+	# etcd --version
+	# mkdir -p /var/lib/etcd/
+	# mkdir /etc/etcd
+	# sudo groupadd --system etcd
+	# sudo useradd -s /sbin/nologin --system -g etcd etcd
+	# sudo chown -R etcd:etcd /var/lib/etcd/
+	# sync
+	# cd ~
+	# systemctl daemon-reload
+	# systemctl start etcd.service
+	# sync
+	# echo "ETCD_NAME=\"controller\"" >> /etc/default/etcd
+	# echo "ETCD_DATA_DIR=\"/var/lib/etcd\"" >> /etc/default/etcd
+	# echo "ETCD_INITIAL_CLUSTER_STATE=\"new\"" >> /etc/default/etcd
+	# echo "ETCD_INITIAL_CLUSTER_TOKEN=\"etcd-cluster-01\"" >> /etc/default/etcd
+	# echo "ETCD_INITIAL_CLUSTER=\"controller=http://${SET_IP}:2380\"" >> /etc/default/etcd
+	# echo "ETCD_INITIAL_ADVERTISE_PEER_URLS=\"http://${SET_IP}:2380\"" >> /etc/default/etcd
+	# echo "ETCD_ADVERTISE_CLIENT_URLS=\"http://${SET_IP}:2379\"" >> /etc/default/etcd
+	# echo "ETCD_LISTEN_PEER_URLS=\"http://0.0.0.0:2380\"" >> /etc/default/etcd
+	# echo "ETCD_LISTEN_CLIENT_URLS=\"http://${SET_IP}:2379\"" >> /etc/default/etcd
+        # systemctl enable etcd
+	# systemctl restart etcd
 fi
 
 ##################################
