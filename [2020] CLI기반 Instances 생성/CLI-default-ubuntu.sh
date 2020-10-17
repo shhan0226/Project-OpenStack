@@ -43,7 +43,7 @@ sync
 ##################################
 # create Instance
 ##################################
-. arm-openrc
+. admin-openrc
 
 openstack server list
 
@@ -54,7 +54,7 @@ sync
 
 echo "server create"
 
-. arm-openrc
+. admin-openrc
 
 openstack server create --image ubuntu1804 --flavor arm-flavor --key-name arm-key --network internal --user-data init.sh --security-group arm-secu ${VM_NAME}
 
@@ -66,7 +66,7 @@ openstack server list
 ##################################
 # Add Floating IP
 ##################################
-. arm-openrc
+. admin-openrc
 
 echo "floating ip create"
 openstack floating ip create external
