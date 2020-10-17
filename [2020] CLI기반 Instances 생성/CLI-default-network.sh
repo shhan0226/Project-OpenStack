@@ -116,7 +116,7 @@ sync
 ##################################
 # create Internal Net
 ##################################
-. arm-openrc
+. admin-openrc
 
 echo "internal net"
 openstack network create internal
@@ -125,7 +125,7 @@ sync
 ##################################
 # create Subnet Internal Net
 ##################################
-. arm-openrc
+. admin-openrc
 
 read -p "Internal Subnet range: (ex 172.10.0.0/24) " SUBNET_RANGE2
 sync
@@ -138,7 +138,7 @@ sync
 ##################################
 # create Router
 ##################################
-. arm-openrc
+. admin-openrc
 
 echo "route create"
 openstack router create arm-router
@@ -158,8 +158,7 @@ sync
 ##################################
 # create keypair
 ##################################
-. arm-openrc
-
+. admin-openrc
 echo "keypair list"
 openstack keypair list
 openstack keypair create arm-key > arm-key.pem
@@ -168,7 +167,7 @@ openstack keypair create arm-key > arm-key.pem
 ##################################
 # create Secu.
 ##################################
-. arm-openrc
+. admin-openrc
 
 echo "security list"
 openstack security group create arm-secu
@@ -185,7 +184,7 @@ openstack security group show arm-secu
 ##################################
 # create init.sh
 ##################################
-. arm-openrc
+. admin-openrc
 
 cat << EOF >init.sh
 #cloud-config
