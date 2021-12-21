@@ -154,10 +154,17 @@ read -p "[crudini] Would you like to install it? <y|n>: " CRUDINI_INSTALL
 sync
 
 if [ "${CRUDINI_INSTALL}" = "y" ]; then
-	apt install -y python3-iniparse
-	git clone https://github.com/pixelb/crudini.git
-	mv crudini /usr/bin/crudinid 
-	ln -s /usr/bin/crudinid/crudini /usr/bin/crudini
+	#apt install -y python3-iniparse
+	#git clone https://github.com/pixelb/crudini.git
+	#mv crudini /usr/bin/crudinid 
+	#ln -s /usr/bin/crudinid/crudini /usr/bin/crudini
+	
+	wget https://github.com/pixelb/crudini/releases/download/0.9.3/crudini-0.9.3.tar.gz
+    	tar xvf crudini-0.9.3.tar.gz
+    	mv crudini-0.9.3/crudini /usr/bin/
+    	pip3 install iniparse
+    	rm -rf crudini-0.9.3 crudini-0.9.3.tar.gz
+	
 	sync
 	cd ~
 fi
