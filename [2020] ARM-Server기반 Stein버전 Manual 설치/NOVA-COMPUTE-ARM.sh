@@ -20,6 +20,8 @@ apt-get install libvirt-bin -y
 apt-get install virtinst -y
 apt-get install bridge-utils -y
 apt-get install cpu-checker -y
+apt-get install virt-manager -y 
+apt-get install qemu-efi -y
 #apt-get install ubuntu-vm-builder -y
 #apt-get install virt-manager -y
 
